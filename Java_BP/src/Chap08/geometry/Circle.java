@@ -5,13 +5,13 @@ package Chap08.geometry;
  * 패키지 선언문을 포함하는 클래스
  * 예제 8-1
  */
-class Circle {
-	int radius;
-	Circle(int radiis) {
+public class Circle {
+	public int radius;
+	public Circle(int radiis) {
 		this.radius=radiis;
 		// TODO Auto-generated constructor stub
 	}
-	double getArea(){
+	public double getArea(){
 		return radius*radius*3.14;
 	}
 }
