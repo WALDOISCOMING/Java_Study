@@ -12,6 +12,9 @@ public class CalcThread extends Thread{
 				total-=1.0/cnt;
 			sharedArea.result=total*4;
 			sharedArea.isReady=true;
+		synchronized (sharedArea) {
+			sharedArea.notifyAll();
+		}
 		}
 	}
 	

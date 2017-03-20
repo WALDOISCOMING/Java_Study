@@ -8,10 +8,9 @@ public TransferThread(SharedArea area) {
 }
 public void run(){
 	for(int cnt=0;cnt<12;cnt++){
-		sharedArea.account1.withdraw(1000000);
-		System.out.println("백만원 인출");
-		sharedArea.account2.deposit(1000000);
-		System.out.println("백만원 입금");
+		synchronized (sharedArea) {//동기화 블록
+		sharedArea.transfer(100);
+		}
 	}
 }
 }

@@ -1,12 +1,12 @@
 package Chap18;
 /*
- * 작성일자:2017_03_19
+ * 작성일자:2017_03_20
  * 작성자:길경완
- * 계좌 이체와 잔액 합계 출력을 동시에 하는 멀티스레드 프로그램(미완성)
- * 예제 18-12
- * 예쩨 18-13:계좌 이체와 잔액 합계 출력을 동시에 하는 멀티 스레드 프로그램(1)
+ * 계좌 이체와 잔약 합계를 출력을 동시에 하는 멀테 스레드 프로그램(2)
+ * 예제 18-14 
+ * 예제 18-15: 계좌 이체와 잔약 합계 출력을 동시에 하는 멀티스레드 프로그램(3
  */
-public class MultithreadExample5 {
+public class MultithreadExample6 {
 	public static void main(String[] args){
 		SharedArea area = new SharedArea();
 		area.account1 = new Account("111-111-1111","이몽룡",20000000);
