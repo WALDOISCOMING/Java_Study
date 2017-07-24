@@ -1,0 +1,80 @@
+귀납에서 반복되는 계산이 나오는 경우. 중복을 피하는것이 동적 알고리즘.
+1.저장을 해서 사용한다.
+ex)
+	피보나치수열에서 귀납으로 계속 계산하는 것 보다는,  예로
+	int fib(int n)
+	{	
+		if(n==1||n==2)
+		return 1;
+		else if(f[n]>-1)//f가 -1로 초기화되어있다.-->한번 계산하면 바로바로 나올 수 있는것이다.
+		return f[n];
+		else
+		f[n] = fib(n-2)+fib(n-1);
+		return f[n];	
+	}
+-->이러한 중복을 피하는것이 동적 알고리즘.
+
+2.buttom-up 방법
+
+피보나치수열에서 귀납으로 계속 계산하는 것 보다는,  예로
+int fib(int n)
+{
+	if(n==1||n==2)
+	return 1;
+	else if(f[n]>-1)//f가 -1로 초기화되어있다.-->한번 계산하면 바로바로 나올 수 있는것이다.
+	return f[n];
+	else
+	f[n] = fib(n-2)+fib(n-1);
+	return f[n];
+		
+}
+-->이러한 중복을 피하는것이 동적 알고리즘.
+
+이항계수
+n개중 k개를 선택하는 것.,
+
+
+int binomal(int n,int k)
+{
+	if(n==k||k==0)
+	return 1;
+	else
+	return binomal(n-1,k)+binomal(n-1,k-1);
+}
+-->맞지만 너무나 계산이 많다. (100,98)이라면 원래라면 1000*99/2이지만 이것이 계산을 한다면
+이것을 다 통으로 곱하므로 많이 걸린다.
+
+이것을 배열로 만들어서 한번 했던건 다시계산 안하도록 한다.
+int binomial(int n,int k)
+{
+	if(n==k||k==0)
+	return 1;
+	else if(binom[n][k]>-1)
+	return binim[n][k];
+	else{
+	binom[n][k] = binomial(n-1,k)+binomial(n-1,k-1);
+	return binom[n][k];
+	}
+
+}
+int binomial(int n,int k)
+{
+	for(int i=0;i=n;i++)
+	{
+	for(int j=0;j<=k&&j<=i;j++)
+		if(k==0||n==k)
+		return 1;
+		else
+		binom[i][j] = binom[i-1][j-1]+binom[i-1][j];	
+	}
+
+	return binom[n][k];
+
+
+}\
+
+memorization
+메모라이제이션은 탑다운->필요한것만 푼다.,
+동적은 바텀업->귀납을 사용하지 않는다. 오버해드가 없다는 장점있다. 하지만 모두 돌아야함.
+
+
