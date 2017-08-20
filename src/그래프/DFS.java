@@ -10,101 +10,159 @@ package 그래프;
  */
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import java.util.Stack;
 
 public class DFS {
+	public final static int SIMPLEX=0;
+	public final static int MULTIPLEX=1;
+	static SimplexDFS simplexDFS;
+	static MultiplexDFS multiplexDFS;
 	
-	
-
-	Stack stack;
-	ArrayList<Integer> []Array;
-	int[] vertex;
-	boolean[] checked;
-	
-	public DFS()
-	{
-		stack = new Stack();
-		//checked = new boolean[5];
-		
-		//queue=new Queue<Integer>();
-		
-	}
-	
-	
-	public void insert(int size,int [][]edge)
-	{
-		for(int i=0;i<size;i++)
-		{
-			Array[edge[i][0]].add(edge[i][1]);
-			Array[edge[i][1]].add(edge[i][0]);
+	DFS(int v,int type){
+		if(type==SIMPLEX)
+		simplexDFS = new SimplexDFS(v);
+		else{
+			multiplexDFS = new MultiplexDFS(v);			
 		}
-		
-	}
-	public void DFS_Recursion(int now,int count)
-	{
-		if(stack.isEmpty())
-			return;
-		while(count!=5)
-		{
-			System.out.print("["+now+"]");
-			for(int i=0;i<Array[now].size();i++)
-			{
-				if(checked[Array[now].get(i)]==false)
-				{
-					stack.pop();
-					checked[Array[now].get(i)]=true;
-					stack.push(Array[now].get(i));
-					DFS_Recursion(Array[now].get(i),count++);
-					
-				}
-				
-			}
 			
+	}
+	
+	public void addEdge_sim(int v,int w){
+		simplexDFS.addEdge(v, w);
+	}
+	
+    public void start_SimplexDFS(int v)
+    {
+        simplexDFS.DFS(v);
+    }
+    public void addEdge_mul(int v,int w){
+    	multiplexDFS.addEdge(v, w);
+    }
+    public void start_MultiplexDFS(int v)
+    {
+        multiplexDFS.DFS(v);
+    }
+	
+	
+	class SimplexDFS{
+		private int V;
+		private LinkedList<Integer> adj[];
+		SimplexDFS(int v) {
+			V=v;
+			adj = new LinkedList[V];
+			for(int i=0;i<V;i++)
+				adj[i]=new LinkedList();
+			// TODO Auto-generated constructor stub
 		}
 		
+		  void addEdge(int v, int w)
+		    {
+		        adj[v].add(w);  
+		    }
+		 
+		    void DFSUtil(int v,boolean visited[])
+		    {
+		      
+		        visited[v] = true;
+		        System.out.print(v+" ");
+		 
+
+		        LinkedList<Integer> list = adj[v];
+		        for(int i=0;i<list.size();i++){	        	        	
+		        	 if (!visited[list.get(i)]){
+			                DFSUtil(list.get(i), visited);
+			               
+		        	 }
+		        }
+		   
+		    }
+		 
+		    void DFS(int v)
+		    {
+		        boolean visited[] = new boolean[V];
+		 
+		        DFSUtil(v, visited);
+		    }	 		
+		
 	}
-	public void DFS_Check(int start,int size,int [][]edge)
-	{
-		Array = new ArrayList[size];
-		checked = new boolean[size];
-		for(int i=0;i<size;i++)
-		{
-			Array[i] =new ArrayList<Integer>();
+	
+	class MultiplexDFS{
+		private int V;
+		private LinkedList<Integer> adj[];
+		MultiplexDFS(int v) {
+			V=v;
+			adj = new LinkedList[V];
+			for(int i=0;i<V;i++)
+				adj[i]=new LinkedList();
+			// TODO Auto-generated constructor stub
 		}
 		
-	
-		
-		insert(size,edge);
-		stack.push(start);
-		checked[start] = true;
-		DFS_Recursion(start,0);
-		
+		  void addEdge(int v, int w)
+		    {
+		        adj[v].add(w);  
+		        adj[w].add(v);
+		    }
+		 
+		    void DFSUtil(int v,boolean visited[])
+		    {
+		      
+		        visited[v] = true;
+		        System.out.print(v+" ");
+		 
+
+		        LinkedList<Integer> list = adj[v];
+		        for(int i=0;i<list.size();i++){	        	        	
+		        	 if (!visited[list.get(i)]){
+			                DFSUtil(list.get(i), visited);
+			               
+		        	 }
+		        }
+		   
+		    }
+		 
+		    void DFS(int v)
+		    {
+		        boolean visited[] = new boolean[V];
+		 
+		        DFSUtil(v, visited);
+		    }	
 		
 		
 		
 	}
 	
-	public static void main(String[] args)
-	{
-		
-		
-		DFS dfs = new DFS();
-		int start = 2;
-		int edgeSize=6;
-		int vertex=5;
-		int [][]edge =
-			{
-					{0,1},
-					{0,2},
-					{1,3},
-					{2,3},
-					{2,4},
-					{3,4}
-			};
-	
-		dfs.DFS_Check(start,edgeSize, edge);
-		
-	}
+	    public static void main(String args[])
+	    {
+	    	
+	    	DFS dfs= new DFS(5,SIMPLEX);
+	    	dfs.addEdge_sim(0, 1);
+	    	dfs.addEdge_sim(0, 2);
+	    	dfs.addEdge_sim(0, 4);
+	    	dfs.addEdge_sim(1, 2);
+	    	dfs.addEdge_sim(2, 0);
+	    	dfs.addEdge_sim(2, 3);
+	    	dfs.addEdge_sim(4, 3);
+	    	dfs.addEdge_sim(3, 4);
+	    	System.out.println("단방향 DFS에서의 시작.");
+	    	dfs.start_SimplexDFS(1);
+	 
+	    	
+	     	DFS dfs2= new DFS(5,MULTIPLEX);
+	    	dfs2.addEdge_mul(0, 1);
+	    	dfs2.addEdge_mul(0, 2);
+	    	dfs2.addEdge_mul(0, 4);
+	    	dfs2.addEdge_mul(1, 2);
+	    	dfs2.addEdge_mul(2, 0);
+	    	dfs2.addEdge_mul(2, 3);
+	    	dfs2.addEdge_mul(4, 3);
+	    	dfs2.addEdge_mul(3, 4);
+	    	System.out.println("\n양방향 DFS에서의 시작.");
+	    	dfs2.start_MultiplexDFS(1);
+	 
+	    	
+	    	
+	    }
 }
