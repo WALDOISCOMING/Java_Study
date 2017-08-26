@@ -112,7 +112,7 @@ public class Tetris extends JPanel {
 		nextPieces.remove(0);
 	}
 	
-	// Collision test for the dropping piece
+	//벽이 있는가 없는가로 판단.
 	private boolean collidesAt(int x, int y, int rotation) {
 		for (Point p : Tetraminos[currentPiece][rotation]) {
 			if (well[p.x + x][p.y + y] != Color.BLACK) {
